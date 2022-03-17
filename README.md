@@ -14,3 +14,6 @@ Takes a wav file (16bit, mono) with a morse code message and decodes it.
 - install [sbt](https://www.scala-sbt.org/)
 - clone repo with: `git clone https://github.com/zstojanovic/wav-morse-decoder.git`
 - run with: `sbt "run message.wav"`
+
+## Addendum
+It turns out it was silly of me to assume the message would start (or end) with silence, so my original submission fails to decode verification message. I've added a fix for that.

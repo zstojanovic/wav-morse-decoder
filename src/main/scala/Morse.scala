@@ -11,8 +11,8 @@ import javax.sound.sampled.*
   while bytes.length == 2 do
     buf += (((bytes(0) & 0xFF) + (bytes(1) << 8)) / 32768d).abs
     bytes = inputStream.readNBytes(2)
-  val sounds = buf.grouped(64).map(it => it.sum / it.size).sliding(2).zipWithIndex.flatMap { case (Seq(a, b), index) =>
-    if ((a < 0.05) != (b < 0.05)) Some(index) else None
+  val sounds = (Seq(0d) ++ buf.grouped(64).map(it => it.sum / it.size) ++ Seq(0d)).sliding(2).zipWithIndex.flatMap {
+    case (Seq(a, b), index) => if ((a < 0.05) != (b < 0.05)) Some(index) else None
   }.toSeq.grouped(2).map(i => Sound(i.head, i(1))).toSeq
   val sGrouper = Grouper(sounds.map(_.length).sorted, 2)
   val pGrouper = Grouper(sounds.sliding(2).flatMap { case Seq(a, b) => Some(b.start - a.end) }.toSeq.sorted, 3)
